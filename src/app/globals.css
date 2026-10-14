@@ -1,26 +1,84 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --navy: #1B2433;
+  --navy-light: #2A3545;
+  --charcoal: #2E3138;
+  --cream: #FAF7F2;
+  --cream-dark: #F0EBE3;
+  --warm-white: #FDFCFA;
+  --teal: #2A7C8A;
+  --teal-dark: #1E5F6A;
+  --teal-muted: #E8F4F6;
+  --slate: #6B7280;
+  --slate-dark: #4B5563;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-charcoal: var(--charcoal);
+  --color-cream: var(--cream);
+  --color-cream-dark: var(--cream-dark);
+  --color-warm-white: var(--warm-white);
+  --color-teal: var(--teal);
+  --color-teal-dark: var(--teal-dark);
+  --color-teal-muted: var(--teal-muted);
+  --color-slate: var(--slate);
+  --color-slate-dark: var(--slate-dark);
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-dm-sans);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Scroll reveal */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+[data-reveal][data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide scrollbar for card rails */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Toast animation */
+@keyframes toast-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-toast {
+  animation: toast-slide-up 0.3s ease-out;
+}
+
+/* Ken Burns slow zoom for hero slideshow */
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
 }

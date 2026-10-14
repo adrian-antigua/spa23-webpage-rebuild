@@ -1,224 +1,97 @@
-# Ruflo — Claude Code Configuration
+# Spa 23 Fitness & Lifestyle — Website Redesign (Proof of Concept)
 
-## Rules
+## What this is
+A fully designed proof-of-concept redesign of https://spa23.com for Spa 23 Fitness & Lifestyle,
+a family-owned, 45+ year old multipurpose health club on Route 23 in Pompton Plains, NJ.
+It is NOT production. Forms are mocked. The goal is to show the owners what a modern,
+premium version of their brand could look like.
 
-- Do what has been asked; nothing more, nothing less
-- NEVER create files unless absolutely necessary — prefer editing existing files
-- NEVER create documentation files unless explicitly requested
-- NEVER save working files or tests to root — use `/src`, `/tests`, `/docs`, `/config`, `/scripts`
-- ALWAYS read a file before editing it
-- NEVER commit secrets, credentials, or .env files
-- NEVER add a `Co-Authored-By` trailer to user commits unless this project's `.claude/settings.json` has `attribution.commit` set (#2078). The Claude Code Bash tool may suggest one in its default commit-message template — ignore it. `Co-Authored-By` is semantic authorship attribution under git/GitHub convention; the tool is the facilitator, not a co-author.
-- Keep files under 500 lines
-- Validate input at system boundaries
+The current site is dated: the homepage still leads with a 2020 COVID reopening letter.
+The underlying business is strong (pool, spa, yoga studio, CrossFit box, swim academy,
+kids camp, juice bar, 80+ weekly classes). The redesign's job is to make the site match
+the facility.
 
-## Ruflo Capability Brain & Implementation Loop
+## Audience & positioning
+- Suburban North Jersey adults and families, 30–65, who want more than a big-box gym:
+  pool, spa, massage, yoga, group fitness, kids programs — all under one roof.
+- Positioning to express: "The club for your whole life" — fitness + spa + family.
+  Think Life Time's "Athletic Country Club" framing, scaled to a single family-owned club
+  with 45 years of community.
+- Tone: warm, confident, premium but not pretentious. No fitness-bro energy, no stock
+  "crush your goals" copy. Members call it "my home away from home." Lean into that.
 
-Ruflo is the coordination ledger and policy decision point. Claude Code is the
-executor: after a Ruflo coordination call, continue implementing the task.
+## Stack & rules
+- Next.js (App Router) + TypeScript + Tailwind CSS. No component libraries (no shadcn,
+  no MUI). Build primitives in `src/components/ui`.
+- Mobile-first. Every page must look finished at 375px and 1440px.
+- All imagery lives in `/public`. Never hotlink from spa23.com. If a real photo is not
+  available, use a clearly labeled placeholder block with an alt-text description of what
+  photo belongs there (e.g. "[Photo: lap swimmer in indoor pool, morning light]").
+- YouTube: embed specific videos by ID via `<iframe src="https://www.youtube.com/embed/{id}">`.
+  Do not call the YouTube API.
+- Forms: every form posts to a local stub that shows a toast — "Demo mode: this form isn't
+  connected yet." Never pretend a submission succeeded for real.
+- Content: pull ALL copy, prices, hours, class names, staff names, and addresses from
+  `/reference/content.md`. If something is missing there, write `[TBD]` in the UI. Never
+  invent a price, an hour, or a person.
+- Accessibility: semantic HTML, alt text on every image, visible focus states, AA contrast.
+- Commit after each page is complete. Small, named commits.
 
-When it is registered, call
-`guidance_brain({ mode: "recommend", task: "..." })` before complex Ruflo
-work. Use its live registry instead of guessing tool names. Treat
-`registered`, `configured`, `reachable`, `healthy`, and `authorized`
-as separate facts. If the brain is unavailable, continue with the compatible
-`guidance_recommend` tool, CLI discovery, and repository instructions.
+## Design direction
+Three reference sites are in `/reference/design/`. Match their structure and feel, not
+their content. What they share, and what this site must have:
 
-Follow the returned loop:
+1. **Full-bleed cinematic hero** — video or large photo, a 2–4 word uppercase headline,
+   one line of support copy, one CTA. "Scroll" cue at the bottom. (All three refs.)
+2. **Editorial typography** — a refined serif display face for headlines paired with a
+   clean geometric sans for body/UI. Large type scale, generous line-height, lots of air.
+   (Mr. C, Tengile.) Suggested pairing: Cormorant Garamond or Fraunces for display,
+   Inter or DM Sans for body. Headlines in uppercase with wide tracking for section eyebrows.
+3. **Restrained palette** — one deep anchor color, one warm neutral, one accent.
+   Tengile uses a near-black green (#242d23) with cream; Mr. C uses cream/white with a
+   single red. For Spa 23: derive the accent from the current logo (check
+   `/reference/brand/`) and pair it with a deep navy or charcoal anchor and a warm
+   off-white. Avoid pure #000 and pure #FFF.
+4. **Alternating image/text sections** — eyebrow label → short headline → 2–3 sentence
+   paragraph → text link CTA, with a large photo beside it. Alternate left/right down the
+   page. Each section gets a lot of vertical padding (py-24 to py-40 on desktop).
+5. **Minimal nav** — logo left, 4–5 links, one solid CTA button ("Join" / "Free Trial"),
+   phone number visible on desktop. Transparent over the hero, solid on scroll.
+   Full-screen overlay menu on mobile (Tengile style).
+6. **Subtle motion** — fade/slide-up on scroll reveal, slow image zoom on hero, nothing
+   bouncy. Use CSS + IntersectionObserver or `framer-motion`; keep it tasteful.
+7. **Horizontal card rails** for programs/amenities/classes (Life Time's "things we're
+   excited about" rail) — image card, small label, one line.
+8. **Social proof as design** — large pull-quote testimonials with member name + "Member
+   since YYYY", set in the serif, on a tinted background (Tengile's National Geographic
+   quote block).
+9. **Dark, well-organized footer** — logo, address, phone, hours, nav columns, social
+   icons, legal line.
 
-1. Recall memory and ADR constraints.
-2. Inspect source, runtime, dependencies, policy, and health.
-3. Route to the smallest capable topology, agents, skills, and tools.
-4. Plan acceptance criteria, safety envelope, ownership, and validation.
-5. Execute in isolated scopes; the coding agent performs the work.
-6. Test focused, regression, and failure paths.
-7. Validate types, security, policy, compatibility, and artifacts.
-8. Benchmark a source-bound candidate against a source-bound baseline.
-9. Optimize measured bottlenecks without weakening safety.
-10. Bind claims and evidence to exact source/build receipts.
-11. Reconcile concurrent handoffs and disclose limitations.
-12. Publish only through a separately authorized release gate.
+What NOT to do: bento grids of icons, gradient buttons, purple/teal SaaS colors,
+"Pricing" tables that look like a software plan picker, emoji, generic hero stock photos
+of dumbbells.
 
-### Concurrency and authority
+## Site map
+- `/` Home — hero, intro (45 years, family-owned), "One club, everything" amenity rail,
+  featured programs (Pool & Swim Academy, BEYOGA, CrossFit, Pure Massage, Kids),
+  video section (facility tour + 2–3 channel videos), testimonials, membership CTA,
+  location strip with hours.
+- `/membership` — membership options, what's included, the "no long-term commitment /
+  1-week money-back / monthly billing" promises, free-trial CTA, FAQ.
+- `/classes` — 80+ weekly classes grouped by category; schedule as a filterable table from
+  a static JSON file; class detail modal or section.
+- `/amenities` — pool, whirlpool/sauna/steam, turf, weight floor, cardio, wellness area,
+  juice bar — each as an image/text section.
+- `/programs` — Fins Swim Academy, Camp Spa 23, KidZone, Personal Training, BEYOGA,
+  CrossFit, Pure Massage. One section each.
+- `/videos` — "Wellness made doable" — grid of embedded YouTube videos from the channel,
+  channel link, Instagram link.
+- `/about` — the story, the owners, the team, community.
+- `/contact` — address, map embed, phone, hours, mocked contact + free-trial forms.
 
-- Never allow two writers in one worktree; give each writing agent an isolated
-  worktree and explicit file ownership.
-- Read-only research may run concurrently and report findings to the owner.
-- Only the integration owner edits shared manifests and lockfiles or reconciles
-  overlapping changes.
-- A child may drop capabilities but cannot add tools, network, secrets, spend,
-  concurrency, namespaces, or delegation depth.
-- A lease or claim coordinates ownership; it does not authorize a side effect.
-- Darwin, Flywheel, MetaHarness, memory, and neural systems may propose or
-  evaluate candidates but cannot self-promote or expand their SafetyEnvelope.
-- Bind tests, benchmarks, policy decisions, and release evidence to an exact
-  commit or immutable dirty-worktree snapshot.
-
-## Agent Comms (SendMessage-First Coordination)
-
-Named agents coordinate via `SendMessage`, not polling or shared state.
-
-```
-Lead (you) ←→ architect ←→ developer ←→ tester ←→ reviewer
-              (named agents message each other directly)
-```
-
-### Spawning a Coordinated Team
-
-```javascript
-// ALL agents in ONE message, each knows WHO to message next
-Agent({ prompt: "Research the codebase. SendMessage findings to 'architect'.",
-  subagent_type: "researcher", name: "researcher", run_in_background: true })
-Agent({ prompt: "Wait for 'researcher'. Design solution. SendMessage to 'coder'.",
-  subagent_type: "system-architect", name: "architect", run_in_background: true })
-Agent({ prompt: "Wait for 'architect'. Implement it. SendMessage to 'tester'.",
-  subagent_type: "coder", name: "coder", run_in_background: true })
-Agent({ prompt: "Wait for 'coder'. Write tests. SendMessage results to 'reviewer'.",
-  subagent_type: "tester", name: "tester", run_in_background: true })
-Agent({ prompt: "Wait for 'tester'. Review code quality and security.",
-  subagent_type: "reviewer", name: "reviewer", run_in_background: true })
-
-// Kick off the pipeline
-SendMessage({ to: "researcher", summary: "Start", message: "[task context]" })
-```
-
-### Patterns
-
-| Pattern | Flow | Use When |
-|---------|------|----------|
-| **Pipeline** | A → B → C → D | Sequential dependencies (feature dev) |
-| **Fan-out** | Lead → A, B, C → Lead | Independent parallel work (research) |
-| **Supervisor** | Lead ↔ workers | Ongoing coordination (complex refactor) |
-
-### Rules
-
-- ALWAYS name agents — `name: "role"` makes them addressable
-- ALWAYS include comms instructions in prompts — who to message, what to send
-- Spawn ALL agents in ONE message with `run_in_background: true`
-- After spawning, continue independent local work; wait only when a dependency
-  genuinely blocks progress
-- Do not poll repeatedly — agents message back or complete automatically
-- Give every writing agent an isolated worktree and a non-overlapping file scope
-
-## Swarm & Routing
-
-### Config
-- **Topology**: hierarchical-mesh (anti-drift)
-- **Max Agents**: 15
-- **Memory**: hybrid
-- **HNSW**: Enabled
-- **Neural**: Enabled
-
-```bash
-npx @claude-flow/cli@latest swarm init --topology hierarchical --max-agents 8 --strategy specialized
-```
-
-### Agent Routing
-
-| Task | Agents | Topology |
-|------|--------|----------|
-| Bug Fix | researcher, coder, tester | hierarchical |
-| Feature | architect, coder, tester, reviewer | hierarchical |
-| Refactor | architect, coder, reviewer | hierarchical |
-| Performance | perf-engineer, coder | hierarchical |
-| Security | security-architect, auditor | hierarchical |
-
-### When to Swarm
-- **YES**: 3+ files, new features, cross-module refactoring, API changes, security, performance
-- **NO**: single file edits, 1-2 line fixes, docs updates, config changes, questions
-
-### 3-Tier Model Routing
-
-| Tier | Handler | Use Cases |
-|------|---------|-----------|
-| 1 | Agent Booster (WASM) | Simple transforms — skip LLM, use Edit directly |
-| 2 | Haiku | Simple tasks, low complexity |
-| 3 | Sonnet/Opus | Architecture, security, complex reasoning |
-
-## Memory & Learning
-
-### Before Any Task
-```bash
-npx @claude-flow/cli@latest memory search --query "[task keywords]" --namespace patterns
-npx @claude-flow/cli@latest hooks route --task "[task description]"
-```
-
-### After Success
-```bash
-npx @claude-flow/cli@latest memory store --namespace patterns --key "[name]" --value "[what worked]"
-npx @claude-flow/cli@latest hooks post-task --task-id "[id]" --success true --store-results true
-```
-
-### MCP Tools (use `ToolSearch("keyword")` to discover)
-
-| Category | Key Tools |
-|----------|-----------|
-| **Memory** | `memory_store`, `memory_search`, `memory_search_unified` |
-| **Bridge** | `memory_import_claude`, `memory_bridge_status` |
-| **Swarm** | `swarm_init`, `swarm_status`, `swarm_health` |
-| **Agents** | `agent_spawn`, `agent_list`, `agent_status` |
-| **Hooks** | `hooks_route`, `hooks_post-task`, `hooks_worker-dispatch` |
-| **Security** | `aidefence_scan`, `aidefence_is_safe`, `aidefence_has_pii` |
-| **Hive-Mind** | `hive-mind_init`, `hive-mind_consensus`, `hive-mind_spawn` |
-
-### Background Workers
-
-| Worker | When |
-|--------|------|
-| `audit` | After security changes |
-| `optimize` | After performance work |
-| `testgaps` | After adding features |
-| `map` | Every 5+ file changes |
-| `document` | After API changes |
-
-```bash
-npx @claude-flow/cli@latest hooks worker dispatch --trigger audit
-```
-
-## Agents
-
-**Core**: `coder`, `reviewer`, `tester`, `planner`, `researcher`
-**Architecture**: `system-architect`, `backend-dev`, `mobile-dev`
-**Security**: `security-architect`, `security-auditor`
-**Performance**: `performance-engineer`, `perf-analyzer`
-**Coordination**: `hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`
-**GitHub**: `pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`
-
-Any string works as a custom agent type.
-
-## Build & Test
-
-- ALWAYS run tests after code changes
-- ALWAYS verify build succeeds before committing
-
-```bash
-npm run build && npm test
-```
-
-## CLI Quick Reference
-
-```bash
-npx @claude-flow/cli@latest init --wizard           # Setup
-npx @claude-flow/cli@latest swarm init --v3-mode     # Start swarm
-npx @claude-flow/cli@latest memory search --query "" # Vector search
-npx @claude-flow/cli@latest hooks route --task ""    # Route to agent
-npx @claude-flow/cli@latest doctor --fix             # Diagnostics
-npx @claude-flow/cli@latest security scan            # Security scan
-npx @claude-flow/cli@latest performance benchmark    # Benchmarks
-```
-
-26 commands, 140+ subcommands. Use `--help` on any command for details.
-
-## Setup
-
-```bash
-claude mcp add claude-flow -- npx -y ruflo@latest mcp start
-npx ruflo@latest doctor --fix
-```
-
-> The background `daemon` is optional. It runs interval workers that each spawn
-> a headless `claude` session, so it consumes tokens continuously. Start it only
-> if you want those sweeps: `npx ruflo@latest daemon start` (self-stops after 12h
-> by default; `--ttl 0` to disable, `daemon status --all` to audit running daemons).
-
-**Agent tool** handles execution (agents, files, code, git). **MCP tools** handle coordination (swarm, memory, hooks). **CLI** is the same via Bash.
+## Reference folder
+- `/reference/content.md` — the content source of truth (see Content rule above)
+- `/reference/brand/` — logo, current-site screenshots, any real photos
+- `/reference/design/` — screenshots of the three reference sites + `design-notes.md`
+- `/reference/videos.md` — YouTube IDs to embed

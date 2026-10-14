@@ -2,6 +2,7 @@ import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
+import { ClassSchedule } from "@/components/classes/ClassSchedule";
 import Image from "next/image";
 import type { Metadata } from "next";
 
@@ -131,30 +132,8 @@ export default function ClassesPage() {
         </div>
       </section>
 
-      {/* Schedule note */}
-      <section className="bg-cream-dark py-16 md:py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-5 md:px-8 lg:px-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow className="mb-4 block">Schedule</Eyebrow>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-navy md:text-5xl">
-              Class Schedule
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed text-slate-dark">
-              Our full group exercise calendar is available at the front desk and in the Spa 23 mobile app.
-              Virtual classes are also offered for members who prefer to work out from home.
-            </p>
-            <p className="mt-4 text-sm text-slate">
-              [TBD] — Full interactive schedule coming soon. Download our app on the App Store or Google Play
-              for real-time class schedules.
-            </p>
-            <div className="mt-10">
-              <Button href="/contact" size="lg">
-                Ask About Classes
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Interactive Schedule */}
+      <ClassSchedule />
 
       {/* CTA */}
       <section className="bg-navy py-16 md:py-24 lg:py-32">

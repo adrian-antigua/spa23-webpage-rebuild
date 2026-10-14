@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "installedAt": "2026-10-14T16:13:51.315Z",
+  "files": {
+    "/Users/AdrianAntigua 1/spa23 site/spa23-webpage-rebuild/.claude/settings.json": {
+      "plugins": [
+        "ruflo-mods@ruflo",
+        "ruflo-swarm@ruflo",
+        "ruflo-console@ruflo"
+      ],
+      "marketplace": true,
+      "env": true,
+      "claudeInstalled": []
+    }
+  }
+}

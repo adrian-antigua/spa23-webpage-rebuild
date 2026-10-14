@@ -14,3 +14,4 @@ ruvector.db
 .claude-flow/metrics/
 .claude-flow/memory/
 .claude-flow/mods/session.json
+.claude-flow/policy/
